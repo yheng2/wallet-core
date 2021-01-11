@@ -63,7 +63,10 @@ int64_t estimateSegwitFee(const FeeCalculator& feeCalculator, const TransactionP
 
 TransactionPlan TransactionBuilder::plan(const Bitcoin::Proto::SigningInput& input) {
     auto plan = TransactionPlan();
-    plan.amount = input.amount();
+    plan.amount = 0;
+    plan.utxos = {};
+    plan.fee = 0;
+    plan.change = 0;
 
     /*
     const auto& feeCalculator = getFeeCalculator(static_cast<TWCoinType>(input.coin_type()));
