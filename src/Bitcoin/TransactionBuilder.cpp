@@ -65,6 +65,7 @@ TransactionPlan TransactionBuilder::plan(const Bitcoin::Proto::SigningInput& inp
     auto plan = TransactionPlan();
     plan.amount = input.amount();
 
+    /*
     const auto& feeCalculator = getFeeCalculator(static_cast<TWCoinType>(input.coin_type()));
     auto unspentSelector = UnspentSelector(feeCalculator);
     bool maxAmount = input.use_max_amount();
@@ -113,6 +114,7 @@ TransactionPlan TransactionBuilder::plan(const Bitcoin::Proto::SigningInput& inp
     assert(!maxAmount || plan.change == 0); // change is 0 in max amount case
 
     assert(plan.amount + plan.change + plan.fee == plan.availableAmount);
+    */
 
     return plan;
 }
