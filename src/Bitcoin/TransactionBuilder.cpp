@@ -73,10 +73,12 @@ TransactionPlan TransactionBuilder::plan(const Bitcoin::Proto::SigningInput& inp
     auto output_size = 2;
     if (!maxAmount) {
         output_size = 2; // output + change
-        plan.utxos = unspentSelector.select(input.utxo(), plan.amount, input.byte_fee(), output_size);
+        //plan.utxos = unspentSelector.select(input.utxo(), plan.amount, input.byte_fee(), output_size);
+        plan.utxos= {};
     } else {
         output_size = 1; // no change
-        plan.utxos = unspentSelector.selectMaxAmount(input.utxo(), input.byte_fee());
+        //plan.utxos = unspentSelector.selectMaxAmount(input.utxo(), input.byte_fee());
+        plan.utxos= {};
     }
     // Note: if utxos.size() == 0, all fields will be computed to 0
     plan.availableAmount = UnspentSelector::sum(plan.utxos);
