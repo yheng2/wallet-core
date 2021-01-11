@@ -63,12 +63,7 @@ int64_t estimateSegwitFee(const FeeCalculator& feeCalculator, const TransactionP
 
 TransactionPlan TransactionBuilder::plan(const Bitcoin::Proto::SigningInput& input) {
     auto plan = TransactionPlan();
-    plan.amount = 0;
-    plan.utxos = {};
-    plan.fee = 0;
-    plan.change = 0;
 
-    /*
     const auto& feeCalculator = getFeeCalculator(static_cast<TWCoinType>(input.coin_type()));
     auto unspentSelector = UnspentSelector(feeCalculator);
     bool maxAmount = input.use_max_amount();
@@ -77,10 +72,12 @@ TransactionPlan TransactionBuilder::plan(const Bitcoin::Proto::SigningInput& inp
     auto output_size = 2;
     if (!maxAmount) {
         output_size = 2; // output + change
-        plan.utxos = unspentSelector.select(input.utxo(), plan.amount, input.byte_fee(), output_size);
+        //plan.utxos = unspentSelector.select(input.utxo(), plan.amount, input.byte_fee(), output_size);
+        plan.utxos = {};
     } else {
         output_size = 1; // no change
-        plan.utxos = unspentSelector.selectMaxAmount(input.utxo(), input.byte_fee());
+        //plan.utxos = unspentSelector.selectMaxAmount(input.utxo(), input.byte_fee());
+        plan.utxos = {};
     }
     // Note: if utxos.size() == 0, all fields will be computed to 0
     plan.availableAmount = UnspentSelector::sum(plan.utxos);
@@ -117,7 +114,6 @@ TransactionPlan TransactionBuilder::plan(const Bitcoin::Proto::SigningInput& inp
     assert(!maxAmount || plan.change == 0); // change is 0 in max amount case
 
     assert(plan.amount + plan.change + plan.fee == plan.availableAmount);
-    */
 
     return plan;
 }
