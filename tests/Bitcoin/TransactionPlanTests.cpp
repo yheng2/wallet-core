@@ -570,3 +570,35 @@ TEST(TransactionPlan, LotsofUtxosMax) {
     EXPECT_EQ(filteredValueSum, 50'039'500);
     EXPECT_TRUE(verifyPlan(txPlan, filteredValues, 48'579'780, 1'459'720));
 }
+
+TEST(TransactionPlan, Doge441) {
+    auto utxos = buildTestUTXOs({100000000, 44000000000});
+    auto byteFee = 700'000;
+
+    {
+        auto& feeCalculator = getFeeCalculator(TWCoinTypeDogecoin);
+        EXPECT_EQ(feeCalculator.calculate(1, 1, byteFee), 134400000);
+        EXPECT_EQ(feeCalculator.calculate(1, 2, byteFee), 158200000);
+        EXPECT_EQ(feeCalculator.calculate(2, 2, byteFee), 261800000);
+    }
+    {   // max: 1 utxo, 1.0 is dust, threshold is 1.036 (148 bytes), fee 1.344, amount 438.656, no change
+        auto sigingInput = buildSigningInput(44100000000, byteFee, utxos, true, TWCoinTypeDogecoin);
+        auto txPlan = TransactionBuilder::plan(sigingInput);
+        EXPECT_TRUE(verifyPlan(txPlan, {44000000000}, 43865600000, 134400000));
+    }
+    {   // 440: not possible, not enough for 1.344 fee
+        auto sigingInput = buildSigningInput(44000000000, byteFee, utxos, false, TWCoinTypeDogecoin);
+        auto txPlan = TransactionBuilder::plan(sigingInput);
+        EXPECT_TRUE(verifyPlan(txPlan, {}, 0, 0, ErrorTextNotEnoughUtxos));
+    }
+    {   // 439: not possible, not enough for 1.344 fee, as 1 is filtered as dust
+        auto sigingInput = buildSigningInput(43900000000, byteFee, utxos, false, TWCoinTypeDogecoin);
+        auto txPlan = TransactionBuilder::plan(sigingInput);
+        EXPECT_TRUE(verifyPlan(txPlan, {}, 0, 0, ErrorTextNotEnoughUtxos));
+    }
+    {   // 438: 1 utxo, fee 1.582, change 0.418 (dust)
+        auto sigingInput = buildSigningInput(43800000000, byteFee, utxos, false, TWCoinTypeDogecoin);
+        auto txPlan = TransactionBuilder::plan(sigingInput);
+        EXPECT_TRUE(verifyPlan(txPlan, {44000000000}, 43800000000, 158200000));
+    }
+}
