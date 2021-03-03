@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 30
-    ndkVersion '21.2.6472646'
+    ndkVersion '21.4.7075529'
     defaultConfig {
         applicationId "com.trustwallet.core.app"
         minSdkVersion 23
@@ -21,7 +21,7 @@ android {
             minifyEnabled false
             // limit platforms built for testing
             ndk {
-                abiFilters 'x86'
+                abiFilters 'x86', 'armeabi', "armeabi-v7a", "arm64-v8a", "x86_64"
             }
         }
     }
@@ -33,6 +33,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2-native-mt'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.protobuf:protobuf-java:3.12.0'
 
     // Tests
     androidTestImplementation('androidx.test.espresso:espresso-core:3.3.0', {
