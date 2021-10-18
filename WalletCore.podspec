@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.name         = 'WalletCore'
   s.version      = version
   s.summary      = 'Trust Wallet core data structures and algorithms.'
-  s.homepage     = 'https://github.com/yheng2/wallet-core'
+  s.homepage     = 'https://github.com/trustwallet/wallet-core'
   s.license      = 'MIT'
   s.authors      = { 'Alejandro Isaza' => 'al@isaza.ca' }
   s.module_name  = 'WalletCore'
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.libraries = 'c++'
 
   s.source = {
-    git: 'git@github.com:yheng2/wallet-core.git'
+    git: 'git@github.com:trustwallet/wallet-core.git'
   }
 
   s.default_subspec = 'Core'
