@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.homepage     = 'https://github.com/yheng2/wallet-core'
   s.license      = 'MIT'
   s.authors      = { 'Alejandro Isaza' => 'al@isaza.ca' }
-  s.module_name  = 'TrustWalletCore'
+  s.module_name  = 'WalletCore'
   
   s.ios.deployment_target = '12.0'
   s.osx.deployment_target = '10.12'
